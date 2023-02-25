@@ -30,9 +30,20 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        $dbc = DB::connection('pgsql')->getPdo();
+        \Config::set(['database.connections.qsimple' => [
+        'driver'    => 'pgsql',
+        'host'      => 'localhost',
+        'port'      => '5432',
+        'database'  => 'qsimple',
+        'username'  => 'postgres',
+        'password'  => 'Thankingli07*',
+        ]]);
+        //\DB::connection('testDB')->table('some_tables');
+        $data=\DB::connection('qsimple')->select('select * from users');
+
+    
         return Inertia::render('Dashboard', [
-            'db_connect' => $dbc,
+            'db_connect' => $data,
         ]);
     })->name('dashboard');
 });
