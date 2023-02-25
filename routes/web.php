@@ -46,4 +46,16 @@ Route::middleware([
             'db_connect' => $data,
         ]);
     })->name('dashboard');
+
+    /** Database routes **/
+
+    Route::get('/databases', [ProjectController::class, 'index'])->name('projects.all');
+    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');
+    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+    Route::put('/projects/{project}',[ProjectController::class,'update'])->name('projects.update');
+    Route::delete('/projects/{project}',[ProjectController::class,'destroy'])->name('projects.destroy');
+
+
 });
