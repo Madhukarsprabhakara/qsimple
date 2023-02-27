@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Database extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    protected $hidden = [
+        'password',
+    ];
 }

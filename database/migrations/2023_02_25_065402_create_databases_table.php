@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('databases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('team_id')->constrained();
+            $table->string('name');
+            $table->string('username');
+            $table->string('password');
+            $table->text('host');
+            $table->integer('port');
+            $table->string('type')->default('postgres');
+            $table->string('display_name');
+            $table->boolean('is_archived')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

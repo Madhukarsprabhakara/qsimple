@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\DatabaseController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +40,13 @@ Route::middleware([
         'password'  => 'Thankingli07*',
         ]]);
         //\DB::connection('testDB')->table('some_tables');
-        $data=\DB::connection('qsimple')->select('select * from users');
+        try {
+            \DB::connection('qsimple')->getPdo();
+            $data='Connected';
+        }
+        catch (\Exception $e) {
+            die("Could not connect to the database.  Please check your configuration. error:" . $e->getMessage() );
+        }
 
     
         return Inertia::render('Dashboard', [
@@ -49,13 +56,13 @@ Route::middleware([
 
     /** Database routes **/
 
-    Route::get('/databases', [ProjectController::class, 'index'])->name('projects.all');
-    Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-    Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-    Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');
-    Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-    Route::put('/projects/{project}',[ProjectController::class,'update'])->name('projects.update');
-    Route::delete('/projects/{project}',[ProjectController::class,'destroy'])->name('projects.destroy');
+    Route::get('/databases', [DatabaseController::class, 'index'])->name('databases.all');
+    //Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+    //Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::get('/databases/create', [DatabaseController::class, 'create'])->name('databases.create');
+    Route::post('/databases', [DatabaseController::class, 'store'])->name('databases.store');
+    //Route::put('/projects/{project}',[ProjectController::class,'update'])->name('projects.update');
+    //Route::delete('/projects/{project}',[ProjectController::class,'destroy'])->name('projects.destroy');
 
 
 });
