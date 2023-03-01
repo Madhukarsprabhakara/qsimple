@@ -3,7 +3,7 @@
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <!-- <h1 class="text-base font-semibold leading-6 text-gray-900">Databases</h1> -->
-        <p class="mt-2 text-sm text-gray-700">A list of all the databases in {{$page.props.auth.user.current_team.name}}. Anyone added to this team will have access to these databases and will be able to create new connections.</p>
+        <p class="mt-2 text-sm text-gray-400">A list of all the databases in <span class="font-semibold">{{$page.props.auth.user.current_team.name}}</span>. Anyone added to this team will have access to these databases and will be able to create new connections.</p>
       </div>
       <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <Link   :href="route('databases.create')" class="text-sm text-gray-700 underline">
