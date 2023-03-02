@@ -48,9 +48,13 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <NavLink :href="route('databases.all')" :active="route().current('databases.all')">
+                                    Databases
                                 </NavLink>
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                    Queries
+                                </NavLink>
+                                
                             </div>
                         </div>
 
