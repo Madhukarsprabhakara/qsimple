@@ -32,27 +32,10 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        \Config::set(['database.connections.qsimple' => [
-        'driver'    => 'pgsql',
-        'host'      => 'localhost',
-        'port'      => '5432',
-        'database'  => 'qsimple',
-        'username'  => 'postgres',
-        'password'  => 'Thankingli07*',
-        ]]);
-        //\DB::connection('testDB')->table('some_tables');
-        try {
-            \DB::connection('qsimple')->getPdo();
-            $data='Connected';
-        }
-        catch (\Exception $e) {
-            die("Could not connect to the database.  Please check your configuration. error:" . $e->getMessage() );
-        }
+        
 
     
-        return Inertia::render('Dashboard', [
-            'db_connect' => $data,
-        ]);
+        return Inertia::render('Dashboard');
     })->name('dashboard');
 
     /** Database routes **/
