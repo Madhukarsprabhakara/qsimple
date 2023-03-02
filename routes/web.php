@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\DatabaseController;
+use App\Http\Controllers\QueryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,6 +64,8 @@ Route::middleware([
     Route::post('/databases', [DatabaseController::class, 'store'])->name('databases.store');
     //Route::put('/projects/{project}',[ProjectController::class,'update'])->name('projects.update');
     //Route::delete('/projects/{project}',[ProjectController::class,'destroy'])->name('projects.destroy');
+
+    Route::get('/querys',[QueryController::class, 'executeQuery'])->name('query.exe');
 
 
 });
