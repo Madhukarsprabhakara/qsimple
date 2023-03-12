@@ -48,7 +48,12 @@ Route::middleware([
     //Route::put('/projects/{project}',[ProjectController::class,'update'])->name('projects.update');
     //Route::delete('/projects/{project}',[ProjectController::class,'destroy'])->name('projects.destroy');
 
-    Route::get('/querys',[QueryController::class, 'executeQuery'])->name('query.exe');
+     /** Query routes **/
+    Route::get('/querys',[QueryController::class, 'executeTableQuery'])->name('query.exe');
+
+    Route::get('/queries', [QueryController::class, 'index'])->name('queries.all');
+    Route::get('/queries/create', [QueryController::class, 'create'])->name('queries.create');
+    Route::post('/queries', [QueryController::class, 'store'])->name('queries.store');
 
 
 });
