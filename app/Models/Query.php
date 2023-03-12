@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Query extends Model
 {
     use HasFactory;
-
+    protected $guarded = []; 
     public function database()
     {
         return $this->belongsTo(Database::class);

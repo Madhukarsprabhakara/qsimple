@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Http\Controllers\QueryController;
-class E24h implements ShouldQueue
+class E12h implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -20,7 +20,7 @@ class E24h implements ShouldQueue
     public function __construct($schedule)
     {
         //
-        $this->schedule=$schedule;
+         $this->schedule=$schedule;
     }
 
     /**
@@ -28,10 +28,9 @@ class E24h implements ShouldQueue
      */
     public function handle(): void
     {
-        
+        //
         $queryExecute=new QueryController;
         $queryExecute->executeQuery($this->schedule);
         $queryExecute->executeTableQuery($this->schedule);
-
     }
 }
