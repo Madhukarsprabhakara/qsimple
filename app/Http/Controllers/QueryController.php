@@ -17,7 +17,7 @@ class QueryController extends Controller
     public function executeQuery(String $schedule='manual')
     {
         try {
-            $queries=Query::where('schedule', $schedule)->with('database')->get();
+            return $queries=Query::where('schedule', $schedule)->whereNull('table_name')->whereNull('schema_name')->with('database')->get();
             //run a for loop for all the queries
             foreach ($queries as $query)
             {
@@ -43,7 +43,7 @@ class QueryController extends Controller
             return $e->getMessage();
         }   
     }
-    public function executeTableQuery(String $schedule='manual')
+    public function executeTableQuery(String $schedule='every_12_hours')
     {
         try {
 
@@ -68,15 +68,23 @@ class QueryController extends Controller
                 {
                     //Table exists or not
                     $table_exists=$db_opr->checkTableInSchemaExistence($query->database->name,  $query->table_name, $query->schema_name);
-                    $hash_id=md5($query->id);
+                    if ($table_exists[0]->count)
+                    {
+                        $hash_id=md5($query->id);
+                        $originalTable=$query->table_name;
+                        \DB::connection($query->database->name)->statement("CREATE TABLE $hash_id  AS TABLE $originalTable");
+                        //take backup
+                        $new_data=\DB::connection($query->database->name)->select($query->query);
+                        \DB::connection($query->database->name)->statement("TRUNCATE TABLE $originalTable");
+                        $status=\DB::connection($query->database->name)->statement("insert into $originalTable $query->query");
+                        \DB::connection($query->database->name)->statement("DROP TABLE $hash_id");
+                        //\DB::connection($query->database->name)->table($originalTable)->insert($new_data);
+                        return $status;
+                    }
+
                     $originalTable=$query->table_name;
-                    \DB::connection($query->database->name)->statement("CREATE TABLE $hash_id  AS TABLE $originalTable");
-                    //take backup
-                    $new_data=\DB::connection($query->database->name)->select($query->query);
-                    \DB::connection($query->database->name)->statement("TRUNCATE TABLE $originalTable");
-                    $status=\DB::connection($query->database->name)->statement("insert into $originalTable $query->query");
-                    \DB::connection($query->database->name)->statement("DROP TABLE $hash_id");
-                    //\DB::connection($query->database->name)->table($originalTable)->insert($new_data);
+                    //$new_data=\DB::connection($query->database->name)->select($query->query);
+                    $status=\DB::connection($query->database->name)->statement("select * into $originalTable from ($query->query) as mt");
                     return $status;
                 }
                 return $schema_exists;
