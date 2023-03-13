@@ -68,8 +68,10 @@ class QueryController extends Controller
                 {
                     //Table exists or not
                     $table_exists=$db_opr->checkTableInSchemaExistence($query->database->name,  $query->table_name, $query->schema_name);
-                    if ($table_exists[0]->count)
+                   
+                    if ($table_exists)
                     {
+                        //return $table_exists;
                         $hash_id=md5($query->id);
                         $originalTable=$query->table_name;
                         \DB::connection($query->database->name)->statement("CREATE TABLE $hash_id  AS TABLE $originalTable");
@@ -77,13 +79,10 @@ class QueryController extends Controller
                         $new_data=\DB::connection($query->database->name)->select($query->query);
                         \DB::connection($query->database->name)->statement("TRUNCATE TABLE $originalTable");
                         $status=\DB::connection($query->database->name)->statement("insert into $originalTable $query->query");
-                        \DB::connection($query->database->name)->statement("DROP TABLE $hash_id");
-                        //\DB::connection($query->database->name)->table($originalTable)->insert($new_data);
                         return $status;
                     }
 
                     $originalTable=$query->table_name;
-                    //$new_data=\DB::connection($query->database->name)->select($query->query);
                     $status=\DB::connection($query->database->name)->statement("select * into $originalTable from ($query->query) as mt");
                     return $status;
                 }

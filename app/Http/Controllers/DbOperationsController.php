@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Schema;
 class DbOperationsController extends Controller
 {
     /**
@@ -12,7 +12,12 @@ class DbOperationsController extends Controller
     public function checkTableInSchemaExistence($database_connection, $table, $schema_name)
     {
         try {
-            return \DB::connection($database_connection)->select("select count(*) from information_schema.tables where table_name='$table' and table_schema='$schema_name'");
+            if (Schema::connection($database_connection)->hasTable($table)) {
+                return 1;
+            } else {
+                return 0;
+            }
+            
         }
         catch (\Exception $e)
         {
