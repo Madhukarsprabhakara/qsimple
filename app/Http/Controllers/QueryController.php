@@ -14,45 +14,31 @@ class QueryController extends Controller
 
 
 
-    public function executeQuery(String $schedule='manual')
+    public function executeQuery(Query $query)
     {
         try {
-            return $queries=Query::where('schedule', $schedule)->whereNull('table_name')->whereNull('schema_name')->with('database')->get();
-            //run a for loop for all the queries
-            foreach ($queries as $query)
-            {
-                $password=Crypt::decryptString($query->database->makeVisible('password')->password);
-                \Config::set(['database.connections.'.$query->database->name => [
+            $password=Crypt::decryptString($query->database->makeVisible('password')->password);
+            \Config::set(['database.connections.'.$query->database->name => [
                     'driver'    => 'pgsql',
                     'host'      => $query->database->host,
                     'port'      => $query->database->port,
                     'database'  => $query->database->name,
                     'username'  => $query->database->username,
                     'password'  => $password,
-                ]]);
-                $status=\DB::connection($query->database->name)->select($query->query);
-                
-
-                //$query->database->makeVisible('password')->password;
-            }
-            
-
+            ]]);
+            $status=\DB::connection($query->database->name)->select($query->query);
         }
         catch (\Exception $e)
         {
             return $e->getMessage();
-        }   
+        }
     }
-    public function executeTableQuery(String $schedule='every_12_hours')
+    
+    public function executeTableQuery(Query $query)
     {
         try {
-
-            //Pick entries with table name and schema name
-            $queries=Query::where('schedule', $schedule)->whereNotNull('table_name')->whereNotNull('schema_name')->with('database')->get();
-            foreach ($queries as $query)
-            {
-                $password=Crypt::decryptString($query->database->makeVisible('password')->password);
-                \Config::set(['database.connections.'.$query->database->name => [
+            $password=Crypt::decryptString($query->database->makeVisible('password')->password);
+            \Config::set(['database.connections.'.$query->database->name => [
                     'driver'    => 'pgsql',
                     'host'      => $query->database->host,
                     'port'      => $query->database->port,
@@ -60,17 +46,14 @@ class QueryController extends Controller
                     'username'  => $query->database->username,
                     'password'  => $password,
                     'search_path' => $query->schema_name,
-                ]]);
-                //Check if table exists in the database and in the particular schema
-                $db_opr=new DbOperationsController;
-                $schema_exists=$db_opr->checkSchemaExistence($query->database->name, $query->schema_name);
-                if ($schema_exists[0]->count)
+            ]]);
+            $db_opr=new DbOperationsController;
+            $schema_exists=$db_opr->checkSchemaExistence($query->database->name, $query->schema_name);
+            if ($schema_exists[0]->count)
+            {
+                $table_exists=$db_opr->checkTableInSchemaExistence($query->database->name,  $query->table_name, $query->schema_name);
+                if ($table_exists)
                 {
-                    //Table exists or not
-                    $table_exists=$db_opr->checkTableInSchemaExistence($query->database->name,  $query->table_name, $query->schema_name);
-                   
-                    if ($table_exists)
-                    {
                         //return $table_exists;
                         $hash_id=md5($query->id);
                         $originalTable=$query->table_name;
@@ -79,30 +62,25 @@ class QueryController extends Controller
                         $new_data=\DB::connection($query->database->name)->select($query->query);
                         \DB::connection($query->database->name)->statement("TRUNCATE TABLE $originalTable");
                         $status=\DB::connection($query->database->name)->statement("insert into $originalTable $query->query");
+                        if ($status)
+                        {
+                           \DB::connection($query->database->name)->statement("DROP TABLE $hash_id"); 
+                        }
                         return $status;
-                    }
-
-                    $originalTable=$query->table_name;
-                    $status=\DB::connection($query->database->name)->statement("select * into $originalTable from ($query->query) as mt");
-                    return $status;
                 }
-                return $schema_exists;
-                //$status=\DB::connection($query->database->name)->select($query->query);
-                
+                $originalTable=$query->table_name;
+                $status=\DB::connection($query->database->name)->statement("select * into $originalTable from ($query->query) as mt");
+                return $status;
 
-                //$query->database->makeVisible('password')->password;
             }
-            return $queries;
-            
-            //if it exists, take table backup in a temp_table, run the query, if output obtained, truncate the table and insert the new records
-            //if not, create the table and dump all the results in that new table 
-
+            return $schema_exists;
         }
         catch (\Exception $e)
         {
-            return $e->getMessage();
+             return $e->getMessage();
         }
     }
+    
     public function databaseConfig()
     {
         try {
