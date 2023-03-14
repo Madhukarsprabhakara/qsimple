@@ -23,8 +23,6 @@
                 <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Schema</th>
                 <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Table</th>
                 <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Database</th>
-                <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Host</th>
-                <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Port</th>
                 <th scope="col" class="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0">
                   <span class="sr-only">Edit</span>
                 </th>
@@ -38,8 +36,6 @@
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.table_name }}</td>
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.table_name }}</td>
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.database.name }}</td>
-                <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.database.host }}</td>
-                <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.database.port }}</td>
                 <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                   <a href="#" class="text-indigo-600 hover:text-indigo-900"
                     >Edit<span class="sr-only">, {{ query.id }}</span></a
