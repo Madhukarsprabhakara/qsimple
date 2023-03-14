@@ -33,7 +33,7 @@
                 
                 <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ query.query_title }}</td>
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ query.schedule }}</td>
-                <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.table_name }}</td>
+                <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.schema_name }}</td>
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.table_name }}</td>
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.database.name }}</td>
                 <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
