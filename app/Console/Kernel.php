@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('jobs:RunQueryE24h')->daily();
-        $schedule->command('jobs:RunQueryE12h')->twiceDailyAt(4, 14, 35);
+        $schedule->command('jobs:RunQueryE12h')->twiceDailyAt(5, 14, 35);
         //$schedule->command('jobs:RunQueryE12h')->twiceDaily(1, 13);
         //$schedule->command('jobs:RunQueryE6h')->everySixHours();
         //$schedule->command('jobs:RunQueryE1h')->hourly();
