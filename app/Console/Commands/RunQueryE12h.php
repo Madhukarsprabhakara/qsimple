@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Jobs\E12h;
+use App\Jobs\E12hRunOnly;
+use App\Http\Controllers\QueryController;
+use App\Models\Query;
 class RunQueryE12h extends Command
 {
     /**
@@ -25,7 +28,23 @@ class RunQueryE12h extends Command
      */
     public function handle(): void
     {
-        //
-        E12h::dispatch('every_12_hours');
+        $queries=array();
+        $queries_run=array();
+        $queries=Query::where('schedule', 'every_12_hours')->whereNotNull('table_name')->whereNotNull('schema_name')->with('database')->get();
+        if (count($queries)>0) {
+            foreach ($queries as $query)
+            {
+                E12h::dispatch($query);
+            }
+        }
+        
+        $queries_run=Query::where('schedule', 'every_12_hours')->whereNull('table_name')->whereNull('schema_name')->with('database')->get();
+        if (count($queries_run)>0)
+        {
+            foreach ($queries_run as $query_run)
+            {
+                E12hRunOnly::dispatch($query_run);
+            }
+        }
     }
 }

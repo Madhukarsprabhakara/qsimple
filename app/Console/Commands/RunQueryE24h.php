@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Jobs\E24h;
+use App\Jobs\E24hRunOnly;
+use App\Http\Controllers\QueryController;
+use App\Models\Query;
 class RunQueryE24h extends Command
 {
     /**
@@ -25,8 +28,24 @@ class RunQueryE24h extends Command
      */
     public function handle(): void
     {
-        //
-        //dispatch background job every 24 hours from here
-        E24h::dispatch('every_24_hours');
+        $queries=array();
+        $queries_run=array();
+        $queries=Query::where('schedule', 'every_24_hours')->whereNotNull('table_name')->whereNotNull('schema_name')->with('database')->get();
+        if (count($queries)>0) {
+            foreach ($queries as $query)
+            {
+                E24h::dispatch($query);
+            }
+        }
+        
+        $queries_run=Query::where('schedule', 'every_24_hours')->whereNull('table_name')->whereNull('schema_name')->with('database')->get();
+        if (count($queries_run)>0)
+        {
+            foreach ($queries_run as $query_run)
+            {
+                E24hRunOnly::dispatch($query_run);
+            }
+        }
+        
     }
 }
