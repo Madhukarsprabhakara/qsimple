@@ -101,7 +101,7 @@ class QueryController extends Controller
         try {
             $user=\Auth::user();
             $team_id=$user->currentTeam->id;
-            $queries=Query::where('team_id', $team_id)->with('database')->get();
+            $queries=Query::where('team_id', $team_id)->with('database')->get(['id','user_id','team_id','database_id','query_title','schedule','table_name','schema_name']);
             $databases=Database::where('team_id',$team_id)->where('is_archived','!=', true)->orWhereNull('is_archived')->get();
             return Inertia::render('Queries/Show', [
                 'queries' => $queries,
