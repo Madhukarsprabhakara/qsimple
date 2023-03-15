@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Query;
 use App\Models\Database;
+use App\Models\QuerySuccess;
+use App\Models\QueryError;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
@@ -27,10 +29,14 @@ class QueryController extends Controller
                     'password'  => $password,
             ]]);
             $status=\DB::connection($query->database->name)->select($query->query);
+            //log the success status here
+            //Query ID, original count, new count, status
+            $this->LogSuccess($query->id, '', '', 'Query executed successfully');
         }
         catch (\Exception $e)
         {
-            return $e->getMessage();
+            $this->LogError($query->id, $e->getMessage(),'Query execution unsuccessfull');
+            //return $e->getMessage();
         }
     }
     
@@ -57,6 +63,7 @@ class QueryController extends Controller
                         //return $table_exists;
                         $hash_id=md5($query->id);
                         $originalTable=$query->table_name;
+                        $OriginalTableRecordCount=\DB::connection($query->database->name)->table($originalTable)->count();
                         \DB::connection($query->database->name)->statement("CREATE TABLE $hash_id  AS TABLE $originalTable");
                         //take backup
                         $new_data=\DB::connection($query->database->name)->select($query->query);
@@ -64,27 +71,62 @@ class QueryController extends Controller
                         $status=\DB::connection($query->database->name)->statement("insert into $originalTable $query->query");
                         if ($status)
                         {
+                           $NewTableRecordCount=\DB::connection($query->database->name)->table($originalTable)->count();
                            \DB::connection($query->database->name)->statement("DROP TABLE $hash_id"); 
+                           //log the success status here
+                           $this->LogSuccess($query->id, $OriginalTableRecordCount, $NewTableRecordCount, 'Sync Successful');
                         }
                         return $status;
                 }
                 $originalTable=$query->table_name;
                 $status=\DB::connection($query->database->name)->statement("select * into $originalTable from ($query->query) as mt");
+                if ($status)
+                {
+                    $NewTableRecordCount=\DB::connection($query->database->name)->table($originalTable)->count();
+                    $this->LogSuccess($query->id, '', $NewTableRecordCount, 'Sync Successful');
+                }
                 return $status;
 
             }
+            //log the success status here
+            //Query ID, original count, new count, status
             return $schema_exists;
         }
         catch (\Exception $e)
         {
-             return $e->getMessage();
+             $this->LogError($query->id, $e->getMessage(),'Query execution unsuccessfull');
         }
     }
     
-    public function databaseConfig()
+    public function LogSuccess($query_id,$OriginalTableRecordCount,$NewTableRecordCount,$status)
     {
         try {
+            QuerySuccess::create([
 
+                'query_id'=>$query_id,
+                'old_table_record_count'=>$OriginalTableRecordCount,
+                'new_table_record_count'=>$NewTableRecordCount,
+                'status'=>$status,
+
+
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            return $e->getMessage();
+        }
+    }
+    public function LogError($query_id, $error, $status)
+    {
+        try {
+            QueryError::create([
+
+                'query_id'=>$query_id,
+                'error'=>$error,
+                'status'=>$status,
+
+
+            ]);
         }
         catch (\Exception $e)
         {
