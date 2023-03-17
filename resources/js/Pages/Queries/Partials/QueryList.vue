@@ -37,9 +37,9 @@
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.table_name }}</td>
                 <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ query.database.name }}</td>
                 <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900"
-                    >Edit<span class="sr-only">, {{ query.id }}</span></a
-                  >
+                  <Link :href="route('queries.edit', query.id)" class="text-indigo-600 pr-3 hover:text-indigo-900"
+                    >Edit<span class="sr-only">, {{ query.id }}</span></Link>
+                  <Link href="#" class="text-indigo-600 hover:text-indigo-900">View<span class="sr-only">, {{ query.id }}</span></Link>
                 </td>
               </tr>
             </tbody>
