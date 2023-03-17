@@ -31,7 +31,7 @@ class QueryController extends Controller
             $status=\DB::connection($query->database->name)->select($query->query);
             //log the success status here
             //Query ID, original count, new count, status
-            $this->LogSuccess($query->id, '', '', 'Query executed successfully');
+            $this->LogSuccess($query->id, null, null, 'Query executed successfully');
         }
         catch (\Exception $e)
         {
@@ -190,6 +190,7 @@ class QueryController extends Controller
                 'query' => 'required|string',
                 'table_name' => 'nullable|string',
                 'schedule' => 'required|string',
+                'schema_name' => 'nullable|string',
 
             ]);
 
@@ -229,9 +230,25 @@ class QueryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Query $query)
+    public function edit(Query $query, Request $request)
     {
         //
+        try {
+            $user=\Auth::user();
+            return Inertia::render('Queries/Edit', [
+                'query' => $query,
+                'databases'=>Database::where('team_id', $user->currentTeam->id)->get(['id','display_name']),
+                'select_stmt'=> $query['table_name']
+                ? true
+                : false,
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            $request->session()->flash('flash.banner', $e->getMessage());
+            $request->session()->flash('flash.bannerStyle', 'danger');
+            return \Redirect::back();
+        }
     }
 
     /**
@@ -240,6 +257,49 @@ class QueryController extends Controller
     public function update(Request $request, Query $query)
     {
         //
+        try {
+            $user=\Auth::user();
+            $team_id=$user->currentTeam->id;
+
+            $validator= \Validator::make($request->all(),[
+                'query_title' => 'required|string',
+                'database_id' => 'required|numeric',
+                'query' => 'required|string',
+                'table_name' => 'nullable|string',
+                'schema_name' => 'nullable|string',
+                'schedule' => 'required|string',
+
+            ]);
+
+            if ($validator->fails())
+            {
+                $request->session()->flash('flash.banner', $validator->errors());
+                $request->session()->flash('flash.bannerStyle', 'danger');
+                return \Redirect::back();
+            }
+            $data=$request->all();
+            $query->query_title=$data['query_title'];
+            $query->database_id=$data['database_id'];
+            $query->query=$data['query'];
+            $query->table_name=$data['table_name'];
+            $query->schema_name=$data['schema_name'];
+            $query->schedule=$data['schedule'];
+
+            $status=$query->save();
+            if ($status)
+            {
+                $request->session()->flash('flash.banner', 'Query Updated');
+                $request->session()->flash('flash.bannerStyle', 'success');
+                return \Redirect::back();
+            }
+            
+        }
+        catch (\Exception $e)
+        {
+            $request->session()->flash('flash.banner', $e->getMessage());
+            $request->session()->flash('flash.bannerStyle', 'danger');
+            return \Redirect::back();
+        }
     }
 
     /**
