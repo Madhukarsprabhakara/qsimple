@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Query;
 use App\Models\Database;
 use App\Models\QuerySuccess;
+use App\Models\QueryStatus;
 use App\Models\QueryError;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -31,11 +32,11 @@ class QueryController extends Controller
             $status=\DB::connection($query->database->name)->select($query->query);
             //log the success status here
             //Query ID, original count, new count, status
-            $this->LogSuccess($query->id, null, null, 'Query executed successfully');
+            $this->LogQueryStatus($query->id, null, null, null, 1, 'Query executed successfully');
         }
         catch (\Exception $e)
         {
-            $this->LogError($query->id, $e->getMessage(),'Query execution unsuccessfull');
+            $this->LogQueryStatus($query->id, null,null, $e->getMessage(),0,'Query execution unsuccessfull');
             //return $e->getMessage();
         }
     }
@@ -74,7 +75,8 @@ class QueryController extends Controller
                            $NewTableRecordCount=\DB::connection($query->database->name)->table($originalTable)->count();
                            \DB::connection($query->database->name)->statement("DROP TABLE $hash_id"); 
                            //log the success status here
-                           $this->LogSuccess($query->id, $OriginalTableRecordCount, $NewTableRecordCount, 'Sync Successful');
+                           //$this->LogSuccess($query->id, $OriginalTableRecordCount, $NewTableRecordCount, 'Sync Successful');
+                           $this->LogQueryStatus($query->id, $OriginalTableRecordCount, $NewTableRecordCount, null, 1, 'Sync Successful');
                         }
                         return $status;
                 }
@@ -83,7 +85,7 @@ class QueryController extends Controller
                 if ($status)
                 {
                     $NewTableRecordCount=\DB::connection($query->database->name)->table($originalTable)->count();
-                    $this->LogSuccess($query->id, '', $NewTableRecordCount, 'Sync Successful');
+                    $this->LogQueryStatus($query->id, null, $NewTableRecordCount, null, 1, 'Sync Successful');
                 }
                 return $status;
 
@@ -94,18 +96,20 @@ class QueryController extends Controller
         }
         catch (\Exception $e)
         {
-             $this->LogError($query->id, $e->getMessage(),'Query execution unsuccessfull');
+             $this->LogQueryStatus($query->id, null,null,$e->getMessage(),0,'Query execution unsuccessfull');
         }
     }
     
-    public function LogSuccess($query_id,$OriginalTableRecordCount,$NewTableRecordCount,$status)
+    public function LogQueryStatus($query_id,$OriginalTableRecordCount,$NewTableRecordCount,$error, $type, $status)
     {
         try {
-            QuerySuccess::create([
+            QueryStatus::create([
 
                 'query_id'=>$query_id,
                 'old_table_record_count'=>$OriginalTableRecordCount,
                 'new_table_record_count'=>$NewTableRecordCount,
+                'error'=>$error,
+                'type'=> $type,
                 'status'=>$status,
 
 
@@ -225,6 +229,10 @@ class QueryController extends Controller
     public function show(Query $query)
     {
         //
+        return Inertia::render('Queries/QueryShow', [
+                'query' => $query,
+                             
+        ]);
     }
 
     /**

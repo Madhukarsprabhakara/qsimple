@@ -56,6 +56,7 @@ Route::middleware([
     Route::get('/querys',[QueryController::class, 'executeTableQuery'])->name('query.exe');
 
     Route::get('/queries', [QueryController::class, 'index'])->name('queries.all');
+    Route::get('/queries/{query}', [QueryController::class, 'show'])->name('queries.show');
     Route::get('/queries/create', [QueryController::class, 'create'])->name('queries.create');
     Route::post('/queries', [QueryController::class, 'store'])->name('queries.store');
     Route::get('/queries/{query}/edit', [QueryController::class, 'edit'])->name('queries.edit');
