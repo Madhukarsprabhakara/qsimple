@@ -13,7 +13,7 @@
                 </div>
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     
-				  	<QueryShowTabs />
+				  	<QueryStatus />
 
                 </div>
             </div>
@@ -24,6 +24,6 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import QueryShowTitle from '@/Pages/Queries/Partials/QueryShowTitle.vue';
-import QueryShowTabs from '@/Pages/Queries/Partials/QueryShowTabs.vue';
+import QueryStatus from '@/Pages/Queries/Partials/QueryStatus.vue';
 
 </script>

@@ -36,7 +36,7 @@ class QueryController extends Controller
         }
         catch (\Exception $e)
         {
-            $this->LogQueryStatus($query->id, null,null, $e->getMessage(),0,'Query execution unsuccessfull');
+            $this->LogQueryStatus($query->id, null,null, $e->getMessage(),0,'Query execution unsuccessful');
             //return $e->getMessage();
         }
     }
@@ -229,6 +229,7 @@ class QueryController extends Controller
     public function show(Query $query)
     {
         //
+        $query['status']=$query->status;
         return Inertia::render('Queries/QueryShow', [
                 'query' => $query,
                              
