@@ -39,7 +39,7 @@
                 <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                   <Link :href="route('queries.edit', query.id)" class="text-indigo-600 pr-3 hover:text-indigo-900"
                     >Edit<span class="sr-only">, {{ query.id }}</span></Link>
-                  <Link href="#" class="text-indigo-600 hover:text-indigo-900">View<span class="sr-only">, {{ query.id }}</span></Link>
+                  <Link :href="route('queries.show', query.id)" class="text-indigo-600 hover:text-indigo-900">View<span class="sr-only">, {{ query.id }}</span></Link>
                 </td>
               </tr>
             </tbody>
