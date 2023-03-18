@@ -13,5 +13,9 @@ class Query extends Model
     {
         return $this->belongsTo(Database::class);
     }
+    public function status()
+    {
+        return $this->hasMany(QueryStatus::class)->orderBy('created_at', 'DESC');
+    }
 
 }
