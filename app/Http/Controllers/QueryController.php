@@ -230,6 +230,7 @@ class QueryController extends Controller
     {
         //
         $query['status']=$query->status;
+        $query['database']=$query->database;
         return Inertia::render('Queries/QueryShow', [
                 'query' => $query,
                              
