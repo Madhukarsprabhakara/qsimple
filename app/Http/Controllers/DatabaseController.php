@@ -104,7 +104,7 @@ class DatabaseController extends Controller
     public function connectCheck($data)
     {
         try {
-            \Config::set(['database.connections.qsimple' => [
+            \Config::set(['database.connections.'.$data['name'] => [
                 'driver'    => 'pgsql',
                 'host'      => $data['host'],
                 'port'      => $data['port'],
@@ -114,7 +114,7 @@ class DatabaseController extends Controller
             ]]);
             //\DB::connection('testDB')->table('some_tables');
             
-            \DB::connection('qsimple')->getPdo();
+            \DB::connection($data['name'])->getPdo();
             return true;
        
         
@@ -132,9 +132,21 @@ class DatabaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Database $database)
+    public function edit(Database $database, Request $request)
     {
         //
+        try {
+            $user=\Auth::user();
+            return Inertia::render('Databases/Edit', [
+                'database' => $database,
+            ]);
+        }
+        catch (\Exception $e)
+        {
+            $request->session()->flash('flash.banner', $e->getMessage());
+            $request->session()->flash('flash.bannerStyle', 'danger');
+            return \Redirect::back();
+        }
     }
 
     /**
@@ -143,6 +155,68 @@ class DatabaseController extends Controller
     public function update(Request $request, Database $database)
     {
         //
+        try {
+            $user=\Auth::user();
+            $team_id=$user->currentTeam->id;
+
+            $validator= \Validator::make($request->all(),[
+                'name' => 'required|string',
+                'username' => 'required|string',
+                'password' => 'nullable|string',
+                'host' => 'required|string',
+                'port' => 'required|numeric',
+                'display_name' => 'required|string',
+                //'team_id' => 'required|numeric',
+                //'user_id' => 'required|numeric',
+
+            ]);
+
+            if ($validator->fails())
+            {
+                $request->session()->flash('flash.banner', $validator->errors());
+                $request->session()->flash('flash.bannerStyle', 'danger');
+                return Redirect::back();
+            }
+            $data=$request->all();
+            if (is_null($data['password']))
+            {
+                unset($data['password']);
+                
+            }
+            else
+            {
+                $database->password=Crypt::encryptString($data['password']);
+            }
+            $database->name=$data['name'];
+            $database->username=$data['username'];
+            //$database->password=$data['query'];
+            $database->host=$data['host'];
+            $database->port=$data['port'];
+            $database->display_name=$data['display_name'];
+
+            $save_status=$database->save();
+            $data['password']=$database->password;
+            $status=$this->connectCheck($data);
+            if ($status)
+            {
+                $request->session()->flash('flash.banner', 'Database Updated and connetion test has passed');
+                $request->session()->flash('flash.bannerStyle', 'success');
+                return \Redirect::back();
+            }
+            else
+            {
+                $request->session()->flash('flash.banner', 'Database Updated but the connection test did not pass. Can you please check the credentials and if the following IP "54.215.217.48" is allowed in your firewall.');
+                $request->session()->flash('flash.bannerStyle', 'danger');
+                return \Redirect::back();
+            }
+            
+        }
+        catch (\Exception $e)
+        {
+            $request->session()->flash('flash.banner', $e->getMessage());
+            $request->session()->flash('flash.bannerStyle', 'danger');
+            return \Redirect::back();
+        }
     }
 
     /**

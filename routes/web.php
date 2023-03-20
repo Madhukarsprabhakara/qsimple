@@ -46,10 +46,10 @@ Route::middleware([
 
     Route::get('/databases', [DatabaseController::class, 'index'])->name('databases.all');
     //Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-    //Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+    Route::get('/databases/{database}/edit', [DatabaseController::class, 'edit'])->name('databases.edit');
     Route::get('/databases/create', [DatabaseController::class, 'create'])->name('databases.create');
     Route::post('/databases', [DatabaseController::class, 'store'])->name('databases.store');
-    //Route::put('/projects/{project}',[ProjectController::class,'update'])->name('projects.update');
+    Route::put('/databases/{database}',[DatabaseController::class,'update'])->name('databases.update');
     //Route::delete('/projects/{project}',[ProjectController::class,'destroy'])->name('projects.destroy');
 
      /** Query routes **/
@@ -59,7 +59,6 @@ Route::middleware([
     Route::get('/queries/create', [QueryController::class, 'create'])->name('queries.create');
     Route::get('/queries/{query}', [QueryController::class, 'show'])->name('queries.show');
     Route::get('/queries/{query}/edit', [QueryController::class, 'edit'])->name('queries.edit');
-    
     Route::post('/queries', [QueryController::class, 'store'])->name('queries.store');
     Route::put('/queries/{query}',[QueryController::class,'update'])->name('queries.update');
 
