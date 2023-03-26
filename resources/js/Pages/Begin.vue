@@ -67,7 +67,7 @@
         <div class="py-24 sm:py-32">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto max-w-2xl text-center">
-              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Simple last mile data transformation in your PostgreSQL database.</h1>
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Transform data directly in your PostgreSQL database.</h1>
               <p class="mt-6 text-lg leading-8 text-gray-600">
               Simply write your select statement and let us do the rest from table creation, to data syncs and seamless status and error reporting.</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
@@ -75,7 +75,7 @@
                 <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Watch a demo <span aria-hidden="true">→</span></a>
               </div>
             </div>
-            <!-- <div class="mt-16 flow-root sm:mt-24">
+          <!--   <div class="mt-16 flow-root sm:mt-24">
               <div class="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
                 <img src="https://tailwindui.com/img/component-images/project-app-screenshot.png" alt="App screenshot" width="2432" height="1442" class="rounded-md shadow-2xl ring-1 ring-gray-900/10" />
               </div>
@@ -115,8 +115,8 @@
       <!-- Feature section -->
       <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
         <div class="mx-auto max-w-2xl lg:text-center">
-          <h2 class="text-base font-semibold leading-7 text-indigo-600">Everything you need and nothing you don't</h2>
-          <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">QuerySimple takes care of materializing the query, scheduling and error reporting so you can focus on what matters the most your transformation logic.</p>
+          <!-- <h2 class="text-base font-semibold leading-7 text-indigo-600">Everything you need and nothing you don't</h2> -->
+          <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">QuerySimple takes care of table creation, data syncs, scheduling and error reporting so you can focus on what matters the most your transformation query.</p>
         </div>
         <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
           <dl class="grid max-w-xl grid-cols-1 gap-y-10 gap-x-8 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
@@ -165,16 +165,16 @@
         </div>
       </div> -->
 
-      <!-- Pricing section -->
+      <!-- Pricing section rounded-3xl -->
       <div class="py-24 sm:pt-48">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div class="mx-auto max-w-4xl text-center">
-            <h2 class="text-base font-semibold leading-7 text-indigo-600">Pricing</h2>
+            <!-- <h2 class="text-base font-semibold leading-7 text-indigo-600">Pricing</h2> -->
             <p class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Pricing plans for teams of&nbsp;all&nbsp;sizes</p>
           </div>
           <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">We aren't here to suck the blood out of you. We are striving hard for honest pricing plan so we are able to serve you the best. What costs us money will cost you money, we will never bloat up the price artificially.</p>
           <div class="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            <div v-for="(tier, tierIdx) in tiers" :key="tier.id" :class="[tier.mostPopular ? 'lg:z-10 lg:rounded-b-none' : 'lg:mt-8', tierIdx === 0 ? 'lg:rounded-r-none' : '', tierIdx === tiers.length - 1 ? 'lg:rounded-l-none' : '', 'flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10']">
+            <div v-for="(tier, tierIdx) in tiers" :key="tier.id" :class="[tier.mostPopular ? 'lg:z-10 lg:rounded-b-none' : 'lg:mt-8', tierIdx === 0 ? 'lg:rounded-r-none' : '', tierIdx === tiers.length - 1 ? 'lg:rounded-l-none' : '', 'flex flex-col justify-between  bg-white p-8 ring-1 ring-gray-200 xl:p-10']">
               <div>
                 <div class="flex items-center justify-between gap-x-4">
                   <h3 :id="tier.id" :class="[tier.mostPopular ? 'text-indigo-600' : 'text-gray-900', 'text-lg font-semibold leading-8']">{{ tier.name }}</h3>
