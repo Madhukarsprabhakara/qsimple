@@ -7,7 +7,7 @@
         <div class="flex lg:flex-1">
           <a href="#" class="-m-1.5 p-1.5">
             <span class="sr-only">Your Company</span>
-            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" zoomAndPan="magnify" viewBox="0 0 375 374.999991" height="40" preserveAspectRatio="xMidYMid meet" version="1.0"><path fill="#145da0" d="M 0 0 L 0 349.648438 L 281.230469 349.648438 L 281.230469 281.230469 L 68.417969 281.230469 L 68.417969 68.417969 L 281.230469 68.417969 L 281.230469 281.230469 L 349.648438 281.230469 L 349.648438 0 Z M 0 0 " fill-opacity="1" fill-rule="nonzero"/><path fill="#145da0" d="M 306.582031 306.582031 L 375 306.582031 L 375 375 L 306.582031 375 Z M 306.582031 306.582031 " fill-opacity="1" fill-rule="nonzero"/></svg>
           </a>
         </div>
         <div class="flex lg:hidden">
@@ -322,9 +322,9 @@ const navigation = [
 ]
 const features = [
   {
-    name: 'Two query types',
+    name: 'Query types',
     description:
-      '1. select statements complex or simple that get created as tables and the data syncs seamlessly. 2. insert/update/delete statements that run at a periodic schedule.',
+      'From complex select statements to insert, updates and deletes we got you covered.',
     icon: QuestionMarkCircleIcon,
   },
   {
@@ -348,7 +348,7 @@ const features = [
   {
     name: 'Status and error reporting',
     description:
-      'The worst thing when a query fails is not that it failed but to know it from the dashboard consumer!',
+      'The worst thing a about query failure is not knowing that it failed. With QuerySimple, you will always know so you can take action in a timely manner.',
     icon: ShieldExclamationIcon,
   },
   {
