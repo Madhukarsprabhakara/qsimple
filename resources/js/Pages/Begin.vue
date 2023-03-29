@@ -229,7 +229,7 @@
           <!-- <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur commodo do ea.</p> -->
           <div class="mt-10 flex items-center justify-center gap-x-6">
             <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Start your free trial</Link>
-            <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Questions? Get in touch <span aria-hidden="true">→</span></a> -->
+            <a href="mailto:msp@querysimple.com" class="text-sm font-semibold leading-6 text-gray-900">Questions? Get in touch <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div class="absolute left-1/2 right-0 top-full -z-10 hidden -translate-y-1/2 transform-gpu overflow-hidden blur-3xl sm:block">
