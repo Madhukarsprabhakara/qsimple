@@ -7,7 +7,9 @@ use App\Models\Database;
 use App\Models\QuerySuccess;
 use App\Models\QueryStatus;
 use App\Models\QueryError;
+use App\Jobs\E24hRunOnly;
 use Illuminate\Http\Request;
+use App\Jobs\E24h;
 use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 use App\Http\Controllers\DbOperationsController;
@@ -211,6 +213,11 @@ class QueryController extends Controller
             //Immediate execution of the query
             if ($query)
             {
+                if ($data['table_name'])
+                {
+                    E24h::dispatch($query);
+                    
+                }
                 return \Redirect::route('queries.all');
             }
             $request->session()->flash('flash.banner', 'Something went wrong. Please email support@sopact.com');
