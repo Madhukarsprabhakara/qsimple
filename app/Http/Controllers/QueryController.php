@@ -218,6 +218,10 @@ class QueryController extends Controller
                     E24h::dispatch($query);
                     
                 }
+                else
+                {
+                    E24hRunOnly::dispatch($query);
+                }
                 return \Redirect::route('queries.all');
             }
             $request->session()->flash('flash.banner', 'Something went wrong. Please email support@sopact.com');
