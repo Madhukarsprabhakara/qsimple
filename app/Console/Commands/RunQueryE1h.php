@@ -14,14 +14,14 @@ class RunQueryE1h extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'jobs:RunQueryE1h';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Runs job every one hour';
 
     /**
      * Execute the console command.
