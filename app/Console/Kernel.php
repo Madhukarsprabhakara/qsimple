@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('jobs:RunQueryE12h')->twiceDailyAt(5, 14, 35);
         //$schedule->command('jobs:RunQueryE12h')->twiceDaily(1, 13);
         //$schedule->command('jobs:RunQueryE6h')->everySixHours();
-        //$schedule->command('jobs:RunQueryE1h')->hourly();
+        $schedule->command('jobs:RunQueryE1h')->hourly();
         //$schedule->command('jobs:RunQueryE1h')->quarterly();
     }
 

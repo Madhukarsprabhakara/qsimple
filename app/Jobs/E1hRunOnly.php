@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Http\Controllers\QueryController;
 use App\Models\Query;
-class E12hRunOnly implements ShouldQueue
+class E1hRunOnly implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

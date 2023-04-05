@@ -30,7 +30,7 @@ class RunQueryE12h extends Command
     {
         $queries=array();
         $queries_run=array();
-        $queries=Query::where('schedule', 'every_12_hours')->whereNotNull('table_name')->whereNotNull('schema_name')->with('database')->get();
+        $queries=Query::where('schedule', 'every_12_hours')->whereNotNull('table_name')->whereNotNull('schema_name')->where('is_active', true)->with('database')->get();
         if (count($queries)>0) {
             foreach ($queries as $query)
             {
@@ -38,7 +38,7 @@ class RunQueryE12h extends Command
             }
         }
         
-        $queries_run=Query::where('schedule', 'every_12_hours')->whereNull('table_name')->whereNull('schema_name')->with('database')->get();
+        $queries_run=Query::where('schedule', 'every_12_hours')->whereNull('table_name')->whereNull('schema_name')->where('is_active', true)->with('database')->get();
         if (count($queries_run)>0)
         {
             foreach ($queries_run as $query_run)
