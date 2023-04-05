@@ -10,18 +10,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Http\Controllers\QueryController;
 use App\Models\Query;
-class E12hRunOnly implements ShouldQueue
+class E1h implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
-    protected $query;
-    public function __construct($query)
+
+    public $query;
+    public function __construct(Query $query)
     {
         //
-        $this->query=$query;
+         
+         $this->query=$query;
     }
 
     /**
@@ -31,6 +33,7 @@ class E12hRunOnly implements ShouldQueue
     {
         //
         $queryExecute=new QueryController;
-        $queryExecute->executeQuery($this->query);
+        //$queryExecute->executeQuery($this->query);
+        $queryExecute->executeTableQuery($this->query);
     }
 }
