@@ -65,6 +65,7 @@ class QueryController extends Controller
                 {
                         //return $table_exists;
                         $hash_id=md5($query->id);
+                        $hash_id="t_".$hash_id; //tables names should always start with a character
                         $originalTable=$query->table_name;
                         $OriginalTableRecordCount=\DB::connection($query->database->name)->table($originalTable)->count();
                         \DB::connection($query->database->name)->statement("CREATE TABLE $hash_id  AS TABLE $originalTable");
