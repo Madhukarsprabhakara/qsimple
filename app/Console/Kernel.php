@@ -10,6 +10,9 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
        Commands\RunQueryE24h::class,
+       Commands\RunQueryE12h::class,
+       Commands\RunQueryE1h::class,
+
     ];
     /**
      * Define the application's command schedule.
