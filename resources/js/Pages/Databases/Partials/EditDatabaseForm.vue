@@ -5,7 +5,14 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-
+import { init, track } from '@amplitude/analytics-browser';
+ 
+const eventProperties = {
+  user: usePage().props.auth.user.email,
+  team: usePage().props.auth.user.current_team.id,
+  database: usePage().props.database.name
+};
+track('Edit database form', eventProperties);
 const form = useForm({
     name: usePage().props.database.name,
     username:usePage().props.database.username,

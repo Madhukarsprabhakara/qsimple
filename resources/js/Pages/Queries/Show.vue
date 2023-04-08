@@ -25,5 +25,11 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import QueryEmptyState from '@/Pages/Queries/QueryEmptyState.vue';
 import DatabaseEmptyState from '@/Pages/Databases/DatabaseEmptyState.vue';
 import QueryList from '@/Pages/Queries/Partials/QueryList.vue';
-
+import { init, track } from '@amplitude/analytics-browser';
+import { usePage } from '@inertiajs/vue3'; 
+const eventProperties = {
+  user: usePage().props.auth.user.email,
+  team: usePage().props.auth.user.current_team.id,
+};
+track('List queries', eventProperties);
 </script>

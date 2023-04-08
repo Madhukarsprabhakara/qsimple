@@ -4,7 +4,13 @@ import DeleteTeamForm from '@/Pages/Teams/Partials/DeleteTeamForm.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
 import TeamMemberManager from '@/Pages/Teams/Partials/TeamMemberManager.vue';
 import UpdateTeamNameForm from '@/Pages/Teams/Partials/UpdateTeamNameForm.vue';
-
+import { init, track } from '@amplitude/analytics-browser';
+import { usePage } from '@inertiajs/vue3'; 
+const eventProperties = {
+  user: usePage().props.auth.user.email,
+  team: usePage().props.auth.user.current_team.id,
+};
+track('Team settings', eventProperties);
 defineProps({
     team: Object,
     availableRoles: Array,

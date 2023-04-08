@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             //
             'previous_url' => url()->previous(),
+            'amp_version' => config('services.amplitude.key'),
         ]);
     }
 }

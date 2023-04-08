@@ -6,7 +6,13 @@ import SectionBorder from '@/Components/SectionBorder.vue';
 import TwoFactorAuthenticationForm from '@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue';
 import UpdatePasswordForm from '@/Pages/Profile/Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue';
-
+import { init, track } from '@amplitude/analytics-browser';
+import { usePage } from '@inertiajs/vue3'; 
+const eventProperties = {
+  user: usePage().props.auth.user.email,
+  team: usePage().props.auth.user.current_team.id,
+};
+track('User profile', eventProperties);
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
     sessions: Array,
