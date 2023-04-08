@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3';
+import { useForm, Link, usePage } from '@inertiajs/vue3';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -8,6 +8,13 @@ import TextInput from '@/Components/TextInput.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import { ref } from 'vue';
+import { init, track } from '@amplitude/analytics-browser';
+
+const eventProperties = {
+  user: usePage().props.auth.user.email,
+  team: usePage().props.auth.user.current_team.id,
+};
+track('Create query form', eventProperties);
 const form = useForm({
     query_title: '',
     database_id:'',

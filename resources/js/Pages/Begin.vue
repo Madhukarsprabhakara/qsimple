@@ -297,8 +297,9 @@
 </template>
 
 <script setup>
+import { init, track } from '@amplitude/analytics-browser';
 import { ref } from 'vue'
-import { Head, Link } from '@inertiajs/vue3'; 
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3'; 
 import { Dialog, DialogPanel } from '@headlessui/vue'
 import {
   ArrowPathIcon,
@@ -457,4 +458,7 @@ const footerNavigation = {
 }
 
 const mobileMenuOpen = ref(false)
+init(usePage().props.amp_version);
+track('Begin View');
+
 </script>
