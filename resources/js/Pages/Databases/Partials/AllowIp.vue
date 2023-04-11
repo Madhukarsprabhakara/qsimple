@@ -11,7 +11,7 @@
           
         </p>
         <p class="font-medium text-yellow-700 underline hover:text-yellow-600">54.215.217.48, 52.52.144.120 </p>
-        
+        <p class="text-yellow-700  hover:text-yellow-600">Please allow this in your firewall/security group</p>
       </div>
     </div>
   </div>
