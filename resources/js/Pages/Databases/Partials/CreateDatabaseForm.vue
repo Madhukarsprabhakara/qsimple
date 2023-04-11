@@ -6,7 +6,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { init, track } from '@amplitude/analytics-browser';
- 
+import AllowIp from '@/Pages/Databases/Partials/AllowIp.vue'; 
 const eventProperties = {
   user: usePage().props.auth.user.email,
   team: usePage().props.auth.user.current_team.id,
@@ -37,7 +37,8 @@ const createTeam = () => {
         </template>
 
         <template #description>
-            Connect to a new database to start querying the data in it.
+            Connect to a new database to start writing and scheduling queries.
+            <AllowIp />
         </template>
 
         <template #form>
