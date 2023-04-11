@@ -72,7 +72,7 @@
               Simply write your select statement and let us do the rest from table creation, to data syncs and seamless status and error reporting.</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
                 <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Start your free trial</Link>
-                <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Watch a demo <span aria-hidden="true">→</span></a>
+                <a href="https://vimeo.com/814504250/6197311920" class="text-sm font-semibold leading-6 text-gray-900">Watch a demo <span aria-hidden="true">→</span></a>
               </div>
             </div>
           <!--   <div class="mt-16 flow-root sm:mt-24">
