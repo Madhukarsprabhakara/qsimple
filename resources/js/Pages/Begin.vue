@@ -71,7 +71,7 @@
               <p class="mt-6 text-lg leading-8 text-gray-600">
               Simply write your select statement and let us do the rest from table creation, to data syncs and seamless status and error reporting.</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
-                <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Start your free trial</Link>
+                <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Transform for free!</Link>
                 <a href="https://vimeo.com/814504250/6197311920" class="text-sm font-semibold leading-6 text-gray-900">Watch a demo <span aria-hidden="true">→</span></a>
               </div>
             </div>
@@ -228,7 +228,7 @@
           <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Ready to transform your data?<br />Start using our service today.</h2>
           <!-- <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur commodo do ea.</p> -->
           <div class="mt-10 flex items-center justify-center gap-x-6">
-            <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Start your free trial</Link>
+            <Link :href="route('register')" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Transform for free!</Link>
             <a href="mailto:msp@querysimple.com" class="text-sm font-semibold leading-6 text-gray-900">Questions? Get in touch <span aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -361,11 +361,11 @@ const features = [
 ]
 const tiers = [
   {
-    name: 'Small Team',
+    name: 'Creator (Limited time)',
     id: 'tier-freelancer',
     href: '#',
-    priceMonthly: '$29',
-    description: 'Low cost plan to help you get started without worrying about the cost.',
+    priceMonthly: '$0',
+    description: 'For a limited time, take advantage of our free forever plan. Ideal for one or 2 people team.',
     features: [
       'Unlimited teams',
       'Unlimited team members',
@@ -426,7 +426,7 @@ const faqs = [
     id: 3,
     question: "Do you have a free plan?",
     answer:
-      "Unfortunately we don't. You may try our service for a month at no cost but we don't have a forever free plan. We are a small business and rely on your support to stay viable. ",
+      "Yup, we have a free plan which has everything that a paid plan has but limited by the query execution time. ",
   },
   // More questions...
 ]
