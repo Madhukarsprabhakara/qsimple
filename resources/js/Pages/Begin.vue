@@ -20,6 +20,9 @@
           <a v-for="item in navigation" :key="item.name" :href="item.href" class="text-sm font-semibold leading-6 text-gray-900">{{ item.name }}</a>
         </div> -->
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div class="hidden lg:flex lg:gap-x-12 mr-4">
+            <a v-for="item in navigation" target="_blank" rel="noopener noreferrer" :key="item.name" :href="item.href" class="text-sm underline font-semibold leading-6 text-gray-900">{{ item.name }}</a>
+          </div>
           <Link :href="route('login')" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></Link>
         </div>
       </nav>
@@ -41,7 +44,9 @@
               <div class="space-y-2 py-6">
                 <a v-for="item in navigation" :key="item.name" :href="item.href" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">{{ item.name }}</a>
               </div>
+
               <div class="py-6">
+
                 <Link :href="route('login')" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log in</Link>
               </div>
             </div>
@@ -172,7 +177,7 @@
             <!-- <h2 class="text-base font-semibold leading-7 text-indigo-600">Pricing</h2> -->
             <p class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Pricing plans for teams of&nbsp;all&nbsp;sizes</p>
           </div>
-          <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">We aren't here to suck the blood out of you. We are striving hard for honest pricing plan so we are able to serve you the best. What costs us money will cost you money, we will never bloat up the price artificially.</p>
+          <!-- <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">We aren't here to suck the blood out of you. We are striving hard for honest pricing plan so we are able to serve you the best. What costs us money will cost you money, we will never bloat up the price artificially.</p> -->
           <div class="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             <div v-for="(tier, tierIdx) in tiers" :key="tier.id" :class="[tier.mostPopular ? 'lg:z-10 lg:rounded-b-none' : 'lg:mt-8', tierIdx === 0 ? 'lg:rounded-r-none' : '', tierIdx === tiers.length - 1 ? 'lg:rounded-l-none' : '', 'flex flex-col justify-between  bg-white p-8 ring-1 ring-gray-200 xl:p-10']">
               <div>
@@ -316,10 +321,10 @@ import {
 import { CheckIcon } from '@heroicons/vue/20/solid'
 
 const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
+  { name: 'Newsletter', href: 'https://querysimple.substack.com/' },
+  // { name: 'About', href: 'https://querysimple.substack.com/' },
+  // { name: 'Product', href: 'https://querysimple.substack.com/' },
+  
 ]
 const features = [
   {
