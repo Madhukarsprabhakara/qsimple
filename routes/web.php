@@ -17,12 +17,21 @@ use App\Http\Controllers\QueryController;
 |
 */
 
+// Route::get('/', function () {
+//     if (\Auth::check())
+//     {
+//         return \Redirect::route('queries.all');
+//     }
+//     return Inertia::render('Begin', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 Route::get('/', function () {
-    if (\Auth::check())
-    {
-        return \Redirect::route('queries.all');
-    }
-    return Inertia::render('Begin', [
+
+    return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
