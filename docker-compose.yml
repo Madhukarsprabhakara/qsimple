@@ -1,0 +1,135 @@
+
+networks:
+  qsimple:
+    name: qsimple
+services:
+  qs_postgres:
+    image: postgres:14.12
+    container_name: qs_postgres
+    networks:
+      - qsimple
+    ports:
+      - 5433:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=qsimple
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+  qs_php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: qs_php
+    volumes:
+      - ./src:/var/www/html
+    restart: unless-stopped
+    networks:
+      - qsimple
+  qs_nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: qs_nginx
+    depends_on:
+      - qs_php
+      - qs_postgres
+    networks:
+      - qsimple
+    ports:
+      - 8089:80
+    volumes:
+      - ./src:/var/www/html
+    restart: unless-stopped
+
+  qs_composer:
+    image: composer:latest
+    container_name: qs_composer
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - qsimple
+
+  qs_artisan:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: qs_artisan
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan"]
+    networks:
+      - qsimple
+  qs_npm:
+    image: node:current-alpine
+    container_name: qs_npm
+    ports:
+      - 5175:5175
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["npm"]
+    networks:
+      - qsimple
+  qs_runtests:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: qs_runtests
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan", "test"]
+    networks:
+      - qsimple
+
+  qs_scheduler:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: qs_scheduler
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan", "schedule:work"]
+    networks:
+      - qsimple
+    restart: unless-stopped
+  qs_supervisord:
+    build:
+      context: .
+      dockerfile: supervisord.dockerfile
+    container_name: qs_supervisord
+    depends_on:
+      - qs_nginx
+      - qs_php
+      - qs_postgres
+      - qs_scheduler
+      - qs_composer
+      - qs_artisan
+      - qs_npm
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - qsimple
+    restart: unless-stopped
+  qs_pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: qs_pgadmin
+    environment:
+      - 'PGADMIN_DEFAULT_EMAIL=madhukar@seasonsurvey.com'
+      - 'PGADMIN_DEFAULT_PASSWORD=slash123'
+    ports:
+      - 8084:80
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    networks:
+      - qsimple
+  
+    
+  

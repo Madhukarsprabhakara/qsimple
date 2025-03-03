@@ -1,0 +1,119 @@
+
+networks:
+  qsimple:
+    name: qsimple
+services:
+  qs_postgres:
+    image: postgres:14.12
+    container_name: qs_postgres
+    networks:
+      - qsimple
+    ports:
+      - 5433:5432
+    
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=qsimple
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+  qs_php:
+    build:
+      context: .
+      dockerfile: php.prod.dockerfile
+    container_name: qs_php
+    networks:
+      - qsimple
+  qs_nginx:
+    build:
+      context: .
+      dockerfile: nginx.prod.dockerfile
+    container_name: qs_nginx
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    depends_on:
+      - qs_php
+      - qs_postgres
+    networks:
+      - qsimple
+    ports:
+      - 80:80
+      - 443:443
+      
+
+  qs_composer:
+    image: composer:latest
+    container_name: qs_composer
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - qsimple
+
+  llama31:
+    image: ilopezluna/llama3.1:0.3.11-8b
+    container_name: llama
+    networks:
+      - qsimple
+    ports:
+      - 11435:11434
+
+  qs_artisan:
+    build:
+      context: .
+      dockerfile: php.prod.dockerfile
+    container_name: qs_artisan
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan"]
+    networks:
+      - qsimple
+  qs_npm:
+    image: node:current-alpine
+    container_name: qs_npm
+    ports:
+      - 5173:5173
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ['npm']
+    networks:
+      - qsimple
+  qs_runtests:
+    build:
+      context: .
+      dockerfile: php.prod.dockerfile
+    container_name: qs_runtests
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan", "test"]
+    networks:
+      - qsimple
+  qs_supervisord:
+    build:
+      context: .
+      dockerfile: supervisord.prod.dockerfile
+    container_name: qs_supervisord
+    depends_on:
+      - qs_nginx
+      - qs_php
+      - qs_postgres
+      - qs_scheduler
+    working_dir: /var/www/html
+    networks:
+      - qsimple
+  qs_scheduler:
+    build:
+      context: .
+      dockerfile: php.prod.dockerfile
+    container_name: qs_scheduler
+    working_dir: /var/www/html
+    entrypoint: ["php", "artisan", "schedule:work"]
+    networks:
+      - qsimple
+    restart: unless-stopped
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
