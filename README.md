@@ -20,7 +20,7 @@ So if you are looking for a simple SQL transformation tool, I welcome you to giv
 
 ### Note
 
-Right now this works only for PostgreSQL server.
+Right now this works only for PostgreSQL DB.
 
 
 ### Deployment steps
@@ -39,5 +39,8 @@ Right now this works only for PostgreSQL server.
 
 Although on windows the steps are pretty much the same but since I don't have a wondows system I ahven't been able to test it there.
 
+### Contact me
+
+msprabhakara[at]gmail[dot]com
 
 
