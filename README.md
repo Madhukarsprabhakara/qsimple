@@ -1,7 +1,7 @@
 
 ## About qsimple
 
-qsimple is a web based data transformation platform that helps automate sql tasks that need repeated execution.
+qsimple is an open source etl tool which helps run SQL based extract transform and load operations.
 
 ### The problem
 
