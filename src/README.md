@@ -18,7 +18,25 @@ I also didn't want to pay for ridiculous cloud credits. They are just super EXPE
 
 So if you are looking for a simple SQL transformation tool, I welcome you to give this a try. 
 
+### Note
+
+Right now this works only for PostgreSQL server.
+
+
 ### Deployment steps
+
+- On mac
+
+git clone https://github.com/Madhukarsprabhakara/qsimple.git
+
+cd  qsimple
+docker-compose run --rm qs_composer update
+docker-compose run --rm qs_composer install
+
+docker-compose run --rm qs_npm install 
+
+cp env/env.example src/.env
+
 
 #### On your local
 
