@@ -45,7 +45,7 @@ services:
     restart: unless-stopped
 
   qs_composer:
-    image: composer:latest
+    image: composer:2.4.4
     container_name: qs_composer
     volumes:
       - ./src:/var/www/html
